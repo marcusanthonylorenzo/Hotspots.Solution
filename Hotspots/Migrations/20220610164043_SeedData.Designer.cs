@@ -2,14 +2,16 @@
 using Hotspots.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hotspots.Migrations
 {
     [DbContext(typeof(HotspotsContext))]
-    partial class HotspotsContextModelSnapshot : ModelSnapshot
+    [Migration("20220610164043_SeedData")]
+    partial class SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,48 +79,6 @@ namespace Hotspots.Migrations
                             City = "Collingwood",
                             Cuisine = "Modern Fine",
                             Name = "Bar Liberty"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            City = "Melbourne",
-                            Cuisine = "Bar/Tapas",
-                            Name = "Peaches"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            City = "Melbourne",
-                            Cuisine = "Bar/Thai",
-                            Name = "Cookie"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            City = "Sydney",
-                            Cuisine = "Thai",
-                            Name = "Holy Basil"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            City = "Sydney",
-                            Cuisine = "Chicken Shop",
-                            Name = "El Jannah"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            City = "Richmond",
-                            Cuisine = "Sandwiches",
-                            Name = "Hectors Deli"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            City = "Collingwood",
-                            Cuisine = "Vegan/Pizza",
-                            Name = "Red Sparrow Pizza"
                         });
                 });
 #pragma warning restore 612, 618
