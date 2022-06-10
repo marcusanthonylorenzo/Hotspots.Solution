@@ -1,12 +1,18 @@
 # HotspotsAPI
 #### By _**Marcus Lorenzo**_
----
 
+
+
+### A simple API which returns a list of some of the most trending restaurants in Australia
+
+![https___localhost_5001_api_Restaurants - Google Chrome 2022-06-10 12-18-32](https://user-images.githubusercontent.com/100096239/173136319-81ad15cd-4ee6-4eb8-997f-e1c6f7335cfa.gif)
+
+
+
+---
 
 | **_Overview_:** |
 |---|
-
-## A simple API which returns a list of some of the most trending restaurants in Australia
 
 
 #### Technologies Used:
