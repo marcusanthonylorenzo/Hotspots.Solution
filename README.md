@@ -22,7 +22,7 @@
 | **_Description_:** |
 |---|
 
--
+- Attempted Response Pagination via this tutorial: `https://codewithmukesh.com/blog/pagination-in-aspnet-core-webapi/#What_we_will_be_Building`
 
 ---
 

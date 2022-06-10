@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hotspots.Models;
+using Hotspots.Filter;
+using Hotspots.Services;
+using Hotspots.Wrappers;
 
 namespace Hotspots.Controllers
 {
@@ -44,6 +47,18 @@ namespace Hotspots.Controllers
       return await query.ToListAsync();
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
+    {
+        var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+        var pagedData = await _db.Restaurants
+            .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+            .Take(validFilter.PageSize)
+            .ToListAsync();
+        var totalRecords = await _db.Restaurants.CountAsync();
+        return Ok(new PagedResponse<List<Restaurant>>(pagedData, validFilter.PageNumber, validFilter.PageSize));
+    }
+
     // GET: https://localhost:5001/api/Restaurants/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
@@ -57,6 +72,13 @@ namespace Hotspots.Controllers
 
         return Restaurant;
     }
+    // public async Task<IActionResult> GetRestaurant(int id)
+    // {
+    //     var restaurant = await context.restaurants.Where(a => a.Id == id).FirstOrDefaultAsync();
+    //     return Ok(new Response<Restaurant>(restaurant));
+    // }
+
+
 
     // PUT: https://localhost:5001/api/Restaurants/{id}
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
