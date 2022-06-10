@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Hotspots.Models;
 using Hotspots.Filter;
 using Hotspots.Services;
-using Hotspots.Wrappers;
+using Hotspots.Helpers;
 
 namespace Hotspots.Controllers
 {
@@ -17,46 +17,28 @@ namespace Hotspots.Controllers
   public class RestaurantsController : ControllerBase
   {
     private readonly HotspotsContext _db;
-
-    public RestaurantsController(HotspotsContext db)
+    private readonly IUriService uriService;
+    public RestaurantsController(HotspotsContext db, IUriService uriService)
     {
       _db = db;
+      this.uriService = uriService;
     }
 
     // GET: https://localhost:5001/api/Restaurants
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Restaurant>>> Get(string name, string city, string cuisine)
-    {
-      var query = _db.Restaurants.AsQueryable();
-
-      if (name != null)
-      {
-        query = query.Where(entry => entry.Name == name);
-      }
-
-      if (city != null)
-      {
-        query = query.Where(entry => entry.City == city);
-      }    
-
-      if (cuisine != null)
-      {
-        query = query.Where(entry => entry.Cuisine == cuisine);
-      }      
-
-      return await query.ToListAsync();
-    }
 
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
     {
+        var route = Request.Path.Value;
         var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
         var pagedData = await _db.Restaurants
             .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
             .Take(validFilter.PageSize)
             .ToListAsync();
         var totalRecords = await _db.Restaurants.CountAsync();
-        return Ok(new PagedResponse<List<Restaurant>>(pagedData, validFilter.PageNumber, validFilter.PageSize));
+
+        var pagedReponse = PaginationHelper.CreatePagedResponse<Restaurant>(pagedData, validFilter, totalRecords, uriService, route);
+        return Ok(pagedReponse);
     }
 
     // GET: https://localhost:5001/api/Restaurants/{id}
@@ -72,16 +54,8 @@ namespace Hotspots.Controllers
 
         return Restaurant;
     }
-    // public async Task<IActionResult> GetRestaurant(int id)
-    // {
-    //     var restaurant = await context.restaurants.Where(a => a.Id == id).FirstOrDefaultAsync();
-    //     return Ok(new Response<Restaurant>(restaurant));
-    // }
-
-
 
     // PUT: https://localhost:5001/api/Restaurants/{id}
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, Restaurant restaurant)
     {
