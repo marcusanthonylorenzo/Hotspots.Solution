@@ -42,6 +42,7 @@ namespace Hotspots.Controllers
     }
 
     // GET: https://localhost:5001/api/Restaurants/{id}
+
     [HttpGet("{id}")]
     public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
     {
@@ -56,6 +57,7 @@ namespace Hotspots.Controllers
     }
 
     // PUT: https://localhost:5001/api/Restaurants/{id}
+
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, Restaurant restaurant)
     {
@@ -85,7 +87,9 @@ namespace Hotspots.Controllers
       return NoContent();
     }
 
-    // POST: api/Restaurants
+    // POST: https://localhost:5001/api/Restaurants
+
+
     [HttpPost]
     public async Task<ActionResult<Restaurant>> Post(Restaurant restaurant)
     {
@@ -95,7 +99,8 @@ namespace Hotspots.Controllers
       return CreatedAtAction(nameof(GetRestaurant), new { id = restaurant.Id }, restaurant);
     }
 
-    // DELETE: api/Restaurants/5
+    // DELETE: https://localhost:5001/api/Restaurants/{id}
+    
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRestaurant(int id)
     {
